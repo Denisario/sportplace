@@ -1,20 +1,19 @@
 package by.shestopalov.sportplace.controller;
 
 import by.shestopalov.sportplace.data.DataCore;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
+@Slf4j
 @Controller
 public class AdminController {
     @GetMapping(value = "/admin")
     public ModelAndView getPage(@CookieValue("username") String username){
         ModelAndView modelAndView = new ModelAndView();
+        log.info("/add - GET");
         if(isAdmin(username)){
             modelAndView.setViewName("adminPage");
         }else{

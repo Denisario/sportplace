@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -16,5 +17,5 @@ public class Place {
     private String city;
     private String street;
     private Integer number;
-    private List<Event> events;
+    private Set<Event> events;
 }

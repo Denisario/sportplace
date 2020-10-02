@@ -5,6 +5,7 @@ import by.shestopalov.sportplace.data.DataCore;
 import by.shestopalov.sportplace.dto.EventDto;
 import by.shestopalov.sportplace.entity.Event;
 import by.shestopalov.sportplace.entity.Place;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-
+@Slf4j
 @Controller
 public class AddEventController {
     @GetMapping(value = "/addEvent")
@@ -27,21 +26,22 @@ public class AddEventController {
         for (var x:DataCore.places) {
             places.add(x.getName());
         }
-        model.addAttribute("event", new Event());
+        model.addAttribute("eventDto", new EventDto());
         model.addAttribute("eventPlaces", places);
+        log.info("/addEvent - GET");
         return modelAndView;
     }
 
     @PostMapping(value = "/addEvent")
-    public ModelAndView addPlace(@ModelAttribute("event") EventDto eventDto){
+    public ModelAndView addPlace(@ModelAttribute("eventDto") EventDto eventDto){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("adminPage");
         Event event = Mapper.map(eventDto, Event.class);
         event.setId((long) DataCore.events.size()+1);
-        Place pl= DataCore.places.stream().filter(x->x.getName().equals(event.getName())).findFirst().get();
+        Place pl= DataCore.places.stream().filter(x->x.getName().equals(eventDto.getPlaceName())).findFirst().get();
         event.setPlace(pl);
         DataCore.events.add(event);
-        System.out.println(event);
+        log.info("/addEvent - POST");
         return modelAndView;
     }
 }

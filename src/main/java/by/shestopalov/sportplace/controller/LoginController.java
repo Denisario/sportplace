@@ -7,9 +7,7 @@ import by.shestopalov.sportplace.entity.Role;
 import by.shestopalov.sportplace.entity.User;
 import by.shestopalov.sportplace.exceptions.IncorrectPasswordException;
 import by.shestopalov.sportplace.exceptions.UserNameNotFoundException;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -54,7 +50,7 @@ public class LoginController {
             if(possibleUser.isPresent()){
                 Cookie cookie = new Cookie("username", possibleUser.get().getUsername());
                 response.addCookie(cookie);
-                modelAndView.setViewName("welcome");
+                modelAndView.setViewName("events");
             }
         } catch (UserNameNotFoundException e) {
             modelAndView.setViewName("error");

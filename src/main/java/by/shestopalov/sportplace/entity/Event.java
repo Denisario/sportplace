@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +20,6 @@ public class Event {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date finishDate;
     private Place place;
-    private List<Comment> comments;
+    private Set<Comment> comments;
 
 }

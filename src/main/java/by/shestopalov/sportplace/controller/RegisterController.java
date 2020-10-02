@@ -20,7 +20,7 @@ public class RegisterController {
     public ModelAndView getRegisterPage(Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("register");
-        model.addAttribute("user", new User());
+        model.addAttribute("userDto", new UserDto());
         log.info("/register - GET");
         return modelAndView;
     }
@@ -30,7 +30,7 @@ public class RegisterController {
         ModelAndView modelAndView = new ModelAndView();
         User user = Mapper.map(userDto, User.class);
         register(user);
-        model.addAttribute("user", user);
+        model.addAttribute("userDto", userDto);
         modelAndView.setViewName("login");
         return modelAndView;
     }

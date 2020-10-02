@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -14,5 +15,5 @@ public class User {
     private String username;
     private String password;
     private Role role;
-    private List<Comment> comments;
+    private Set<Comment> comments;
 }

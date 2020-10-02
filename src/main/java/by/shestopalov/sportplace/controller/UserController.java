@@ -1,5 +1,6 @@
 package by.shestopalov.sportplace.controller;
 
+import by.shestopalov.sportplace.data.DataCore;
 import by.shestopalov.sportplace.entity.Role;
 import by.shestopalov.sportplace.entity.User;
 import by.shestopalov.sportplace.exceptions.IncorrectPasswordException;
@@ -20,12 +21,11 @@ import java.util.Optional;
 @Slf4j
 @Controller
 public class UserController {
-    private static List<User> users=new ArrayList<>();
     static {
         Role userRole =new Role(1L, "USER");
-        Role adminRole =new Role(1L, "USER");
-        users.add(new User(1L, "denisario", "123", userRole, null));
-        users.add(new User(2L, "denisario", "123", userRole, null));
+        Role adminRole =new Role(2L, "ADMIN");
+        DataCore.users.add(new User(1L, "denisario", "123", userRole, null));
+        DataCore.users.add(new User(2L, "denisario", "123", userRole, null));
     }
 
     @GetMapping(value = "/login")
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     private Optional<User> login(String username, String password) throws UserNameNotFoundException, IncorrectPasswordException {
-        User user = users.stream().filter(x->x.getUsername().equals(username)).findFirst().orElseThrow(()->new UserNameNotFoundException("User not found"));
+        User user = DataCore.users.stream().filter(x->x.getUsername().equals(username)).findFirst().orElseThrow(()->new UserNameNotFoundException("User not found"));
         if(!user.getPassword().equals(password)) throw new IncorrectPasswordException("Incorrect password");
         return Optional.ofNullable(user);
     }

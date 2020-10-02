@@ -1,20 +1,16 @@
-package by.shestopalov.sportplace.entity;
+package by.shestopalov.sportplace.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Place {
-    private Long id;
+public class PlaceDto {
     private String name;
     private String country;
     private String city;
     private String street;
     private Integer number;
-    private List<Event> events;
 }

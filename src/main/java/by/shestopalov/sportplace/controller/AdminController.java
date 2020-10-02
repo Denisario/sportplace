@@ -24,8 +24,11 @@ public class AdminController {
     }
 
     private boolean isAdmin(String username){
-        return DataCore.users.stream()
+        return DataCore.users
+                .stream()
                 .filter(x->x.getUsername().equals(username))
-                .filter(x->x.getRole().getName().equals("ADMIN")).findFirst().isPresent();
+                .filter(x->x.getRole().getName().equals("ADMIN"))
+                .findFirst()
+                .isPresent();
     }
 }

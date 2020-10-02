@@ -1,6 +1,8 @@
 package by.shestopalov.sportplace.controller;
 
+import by.shestopalov.sportplace.config.Mapper;
 import by.shestopalov.sportplace.data.DataCore;
+import by.shestopalov.sportplace.dto.UserDto;
 import by.shestopalov.sportplace.entity.Role;
 import by.shestopalov.sportplace.entity.User;
 import by.shestopalov.sportplace.exceptions.IncorrectPasswordException;
@@ -41,8 +43,9 @@ public class LoginController {
     }
 
     @PostMapping(value = "/login")
-    public ModelAndView login(@ModelAttribute("user") User user, Model model, HttpServletResponse response){
+    public ModelAndView login(@ModelAttribute("user") UserDto userDto, Model model, HttpServletResponse response){
         ModelAndView modelAndView = new ModelAndView();
+        User user = Mapper.map(userDto, User.class);
         user.setUsername(user.getUsername().toLowerCase());
         model.addAttribute("user", user);
         log.info("/login - POST");

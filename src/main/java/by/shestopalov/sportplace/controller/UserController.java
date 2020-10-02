@@ -5,6 +5,7 @@ import by.shestopalov.sportplace.entity.Role;
 import by.shestopalov.sportplace.entity.User;
 import by.shestopalov.sportplace.exceptions.IncorrectPasswordException;
 import by.shestopalov.sportplace.exceptions.UserNameNotFoundException;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,10 @@ import java.util.Optional;
 @Controller
 public class UserController {
     static {
-        Role userRole =new Role(1L, "USER");
-        Role adminRole =new Role(2L, "ADMIN");
-        DataCore.users.add(new User(1L, "denisario", "123", userRole, null));
-        DataCore.users.add(new User(2L, "denisario", "123", userRole, null));
+        DataCore.roles.add(new Role(1L, "USER"));
+        DataCore.roles.add(new Role(2L, "ADMIN"));
+        DataCore.users.add(new User(1L, "denisario", "123",DataCore.roles.stream().filter((x)->x.getName().equals("USER")).findFirst().get(), null));
+        DataCore.users.add(new User(2L, "denisario", "123", DataCore.roles.stream().filter((x)->x.getName().equals("USER")).findFirst().get(), null));
     }
 
     @GetMapping(value = "/login")

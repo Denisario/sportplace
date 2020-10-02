@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Controller
-public class UserController {
+public class LoginController {
     static {
         DataCore.roles.add(new Role(1L, "USER"));
         DataCore.roles.add(new Role(2L, "ADMIN"));
@@ -39,13 +41,16 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public ModelAndView login(@ModelAttribute("user") User user, Model model){
+    public ModelAndView login(@ModelAttribute("user") User user, Model model, HttpServletResponse response){
         ModelAndView modelAndView = new ModelAndView();
         user.setUsername(user.getUsername().toLowerCase());
         model.addAttribute("user", user);
         log.info("/login - POST");
         try {
-            if(login(user.getUsername(), user.getPassword()).isPresent()){
+            Optional<User> possibleUser =login(user.getUsername(), user.getPassword());
+            if(possibleUser.isPresent()){
+                Cookie cookie = new Cookie("username", possibleUser.get().getUsername());
+                response.addCookie(cookie);
                 modelAndView.setViewName("welcome");
             }
         } catch (UserNameNotFoundException e) {

@@ -8,7 +8,9 @@
     <h1>Welcome</h1>
     <form action="#" th:action="@{/login}" th:object="${user}" method="post">
         <input type="text" placeholder="login" th:field="*{username}">
+        <br/>
         <input type="password" placeholder="password" th:field="*{password}">
+        <br/>
         <input type="submit" value="Login">
     </form>
 </body>

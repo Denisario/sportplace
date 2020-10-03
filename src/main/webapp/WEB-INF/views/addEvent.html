@@ -6,13 +6,17 @@
 </head>
 <body>
 <form action="#" th:action="@{/addEvent}" th:object="${eventDto}" method="post">
-    <input type="text" placeholder="country" th:field="*{name}">
+    <input type="text" placeholder="Event name" th:field="*{name}">
+    <br/>
     <input type="datetime-local" placeholder="start date" th:field="*{startDate}">
+    <br/>
     <input type="datetime-local" placeholder="finish date" th:field="*{finishDate}">
+    <br/>
     <select th:field="*{placeName}">
         <option th:each="place: ${eventPlaces}" th:value="${place}" th:text="${place}"></option>
     </select>
-    <input type="submit" value="Add place">
+    <br/>
+    <input type="submit" value="Add event">
 </form>
 </body>
 </html>

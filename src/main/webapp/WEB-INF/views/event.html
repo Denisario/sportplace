@@ -21,7 +21,9 @@
     </div>
     <form action="#" th:action="@{/comments/{id}(id=${event.id})}" th:object="${comment}" method="post">
         <textarea placeholder="Write your comment" th:field="*{text}"></textarea>
+        <br/>
         <input type="number" min="1" max="5" placeholder="rating" th:field="*{rating}">
+        <br/>
         <input type="submit" value="Add comment">
     </form>
 </div>

@@ -21,10 +21,6 @@ import java.util.Optional;
 @Slf4j
 @Controller
 public class LoginController {
-    static {
-
-    }
-
     @GetMapping(value = "/login")
     public ModelAndView getLoginPage(Model model){
         log.info("/login - GET");

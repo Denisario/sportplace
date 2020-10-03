@@ -7,10 +7,15 @@
 <body>
     <form action="#" th:action="@{/addPlace}" th:object="${placeDto}" method="post">
         <input type="text" placeholder="name" th:field="*{name}">
+        <br/>
         <input type="text" placeholder="country" th:field="*{country}">
+        <br/>
         <input type="text" placeholder="city" th:field="*{city}">
+        <br/>
         <input type="text" placeholder="street" th:field="*{street}">
+        <br/>
         <input type="number" placeholder="number" th:field="*{number}">
+        <br/>
         <input type="submit" value="Add place">
     </form>
 </body>

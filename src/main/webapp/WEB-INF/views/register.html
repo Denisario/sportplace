@@ -8,8 +8,12 @@
     <h1>Register</h1>
     <form action="#" th:action="@{/register}" th:object="${userDto}" method="post">
         <input type="text" placeholder="login" th:field="*{username}">
+        <br/>
         <input type="password" placeholder="password" th:field="*{password}">
-        <input type="submit" value="Login">
+        <br/>
+        <input type="password" placeholder="repeat password" th:field="*{repeatPassword}">
+        <br/>
+        <input type="submit" value="Register">
     </form>
 </body>
 </html>

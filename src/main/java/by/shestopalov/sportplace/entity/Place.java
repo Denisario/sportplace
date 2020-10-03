@@ -1,13 +1,13 @@
 package by.shestopalov.sportplace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(exclude = {"events"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Place {

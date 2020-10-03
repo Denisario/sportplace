@@ -6,10 +6,11 @@
 </head>
 <body>
     <div th:each="event : ${events}">
-        <h2 th:text="${event.name}"></h2>
+        <a href="#" th:href="@{/events/{id}(id=${event.id})}" th:text="${event.name}"></a>
         <p th:text="${event.startDate}"></p>
         <p th:text="${event.finishDate}"></p>
         <p th:text="${'Place: ' + event.place.name + ' ' + event.place.country + ' : ' + event.place.city + ' city : address ' + event.place.street + ' ' + event.place.number}"></p>
+
     </div>
 </body>
 </html>

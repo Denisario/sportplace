@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentDto {
-    private Double rating;
+    private Short rating;
     private String text;
     private User user;
     private String eventId;

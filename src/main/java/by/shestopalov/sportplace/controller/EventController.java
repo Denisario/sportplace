@@ -1,6 +1,7 @@
 package by.shestopalov.sportplace.controller;
 
 import by.shestopalov.sportplace.data.DataCore;
+import by.shestopalov.sportplace.dto.CommentDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,9 @@ public class EventController {
     public ModelAndView getAllEvents(Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("events");
+
         model.addAttribute("events", DataCore.events);
+
         log.info("/events - GET");
         return modelAndView;
     }
@@ -24,7 +27,14 @@ public class EventController {
     public ModelAndView getEventById(@PathVariable("id") Long id, Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("event");
-        model.addAttribute("event", DataCore.events.stream().filter(x->x.getId().equals(id)).findFirst().get());
+
+        model.addAttribute("comment", new CommentDto());
+        model.addAttribute("event", DataCore.events
+                .stream()
+                .filter(x->x.getId().equals(id))
+                .findFirst()
+                .get());
+
         log.info("/events/{id} - GET");
         return modelAndView;
     }

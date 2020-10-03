@@ -3,7 +3,6 @@ package by.shestopalov.sportplace.controller;
 import by.shestopalov.sportplace.config.Mapper;
 import by.shestopalov.sportplace.data.DataCore;
 import by.shestopalov.sportplace.dto.UserDto;
-import by.shestopalov.sportplace.entity.Role;
 import by.shestopalov.sportplace.entity.User;
 import by.shestopalov.sportplace.exceptions.IncorrectPasswordException;
 import by.shestopalov.sportplace.exceptions.UserNameNotFoundException;
@@ -23,10 +22,7 @@ import java.util.Optional;
 @Controller
 public class LoginController {
     static {
-        DataCore.roles.add(new Role(1L, "USER"));
-        DataCore.roles.add(new Role(2L, "ADMIN"));
-        DataCore.users.add(new User(1L, "denisario", "123",DataCore.roles.stream().filter((x)->x.getName().equals("USER")).findFirst().get(), null));
-        DataCore.users.add(new User(2L, "denisario", "123", DataCore.roles.stream().filter((x)->x.getName().equals("USER")).findFirst().get(), null));
+
     }
 
     @GetMapping(value = "/login")
@@ -34,28 +30,33 @@ public class LoginController {
         log.info("/login - GET");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
+
         model.addAttribute("user", new User());
+
         return modelAndView;
     }
 
     @PostMapping(value = "/login")
     public ModelAndView login(@ModelAttribute("user") UserDto userDto, Model model, HttpServletResponse response){
         ModelAndView modelAndView = new ModelAndView();
-        User user = Mapper.map(userDto, User.class);
-        user.setUsername(user.getUsername().toLowerCase());
-        model.addAttribute("user", user);
-        log.info("/login - POST");
-        try {
-            Optional<User> possibleUser =login(user.getUsername(), user.getPassword());
+
+        try{
+            User user = Mapper.map(userDto, User.class);
+
+            user.setUsername(user.getUsername().toLowerCase());
+
+            model.addAttribute("user", user);
+
+            Optional<User> possibleUser = login(user.getUsername(), user.getPassword());
+
             if(possibleUser.isPresent()){
                 Cookie cookie = new Cookie("username", possibleUser.get().getUsername());
                 response.addCookie(cookie);
+
+                log.info("/login - POST");
                 modelAndView.setViewName("events");
             }
-        } catch (UserNameNotFoundException e) {
-            modelAndView.setViewName("error");
-            model.addAttribute("error", e.getMessage());
-        } catch (IncorrectPasswordException e) {
+        } catch (Exception e) {
             modelAndView.setViewName("error");
             model.addAttribute("error", e.getMessage());
         }
@@ -64,8 +65,13 @@ public class LoginController {
     }
 
     private Optional<User> login(String username, String password) throws UserNameNotFoundException, IncorrectPasswordException {
-        User user = DataCore.users.stream().filter(x->x.getUsername().equals(username)).findFirst().orElseThrow(()->new UserNameNotFoundException("User not found"));
+        User user = DataCore.users
+                .stream()
+                .filter(x->x.getUsername().equals(username))
+                .findFirst()
+                .orElseThrow(()->new UserNameNotFoundException("User not found"));
+
         if(!user.getPassword().equals(password)) throw new IncorrectPasswordException("Incorrect password");
-        return Optional.ofNullable(user);
+        return Optional.of(user);
     }
 }

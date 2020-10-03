@@ -1,8 +1,6 @@
 package by.shestopalov.sportplace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.Set;
@@ -16,4 +14,5 @@ public class User {
     private String password;
     private Role role;
     private Set<Comment> comments;
+
 }

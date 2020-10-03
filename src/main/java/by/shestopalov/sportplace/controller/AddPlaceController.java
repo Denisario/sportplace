@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashSet;
+
 @Slf4j
 @Controller
 public class AddPlaceController {
@@ -19,7 +21,9 @@ public class AddPlaceController {
     public ModelAndView getPage(Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("addPlace");
+
         model.addAttribute("placeDto", new PlaceDto());
+
         log.info("/addPlace - GET");
         return modelAndView;
     }
@@ -28,9 +32,13 @@ public class AddPlaceController {
     public ModelAndView addPlace(@ModelAttribute("place") PlaceDto placeDto){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("adminPage");
+
         Place place = Mapper.map(placeDto, Place.class);
         place.setId((long)DataCore.places.size()+1);
+
+        place.setEvents(new HashSet<>());
         DataCore.places.add(place);
+
         log.info("/addPlace - POST");
         return modelAndView;
     }

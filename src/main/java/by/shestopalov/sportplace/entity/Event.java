@@ -1,15 +1,15 @@
 package by.shestopalov.sportplace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"place"})
+@EqualsAndHashCode(exclude = {"place", "comments"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Event {

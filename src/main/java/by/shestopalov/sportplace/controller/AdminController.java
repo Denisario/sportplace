@@ -13,12 +13,14 @@ public class AdminController {
     @GetMapping(value = "/admin")
     public ModelAndView getPage(@CookieValue("username") String username){
         ModelAndView modelAndView = new ModelAndView();
-        log.info("/add - GET");
+
         if(isAdmin(username)){
             modelAndView.setViewName("adminPage");
         }else{
            modelAndView.setViewName("error");
         }
+
+        log.info("/add - GET");
         return modelAndView;
     }
 
@@ -26,8 +28,8 @@ public class AdminController {
         return DataCore.users
                 .stream()
                 .filter(x->x.getUsername().equals(username))
-                .filter(x->x.getRole().getName().equals("ADMIN"))
-                .findFirst()
-                .isPresent();
+                .anyMatch(x->x.getRole()
+                        .getName()
+                        .equals("ADMIN"));
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+
 @Slf4j
 @Controller
 public class EventController {
@@ -24,11 +25,12 @@ public class EventController {
     }
 
     @GetMapping(value = "/events/{id}")
-    public ModelAndView getEventById(@PathVariable("id") Long id, Model model){
+    public ModelAndView getEventById(@PathVariable("id") Long id,
+                                     Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("event");
 
-        model.addAttribute("comment", new CommentDto());
+        model.addAttribute("commentDto", new CommentDto());
         model.addAttribute("event", DataCore.events
                 .stream()
                 .filter(x->x.getId().equals(id))
@@ -38,4 +40,6 @@ public class EventController {
         log.info("/events/{id} - GET");
         return modelAndView;
     }
+
+
 }

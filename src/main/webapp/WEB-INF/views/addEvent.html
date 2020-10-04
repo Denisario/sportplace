@@ -7,14 +7,18 @@
 <body>
 <form action="#" th:action="@{/addEvent}" th:object="${eventDto}" method="post">
     <input type="text" placeholder="Event name" th:field="*{name}">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
     <br/>
     <input type="datetime-local" placeholder="start date" th:field="*{startDate}">
+    <span th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></span>
     <br/>
     <input type="datetime-local" placeholder="finish date" th:field="*{finishDate}">
+    <span th:if="${#fields.hasErrors('finishDate')}" th:errors="*{finishDate}"></span>
     <br/>
     <select th:field="*{placeName}">
         <option th:each="place: ${eventPlaces}" th:value="${place}" th:text="${place}"></option>
     </select>
+    <span th:if="${#fields.hasErrors('placeName')}" th:errors="*{placeName}"></span>
     <br/>
     <input type="submit" value="Add event">
 </form>

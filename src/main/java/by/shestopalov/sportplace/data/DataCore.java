@@ -20,7 +20,7 @@ public class DataCore {
         roles.add(role1);
         roles.add(role2);
 
-        User u1 = new User(1L, "denisario", "123",role1, new HashSet<>());
+        User u1 = new User(1L, "denisario", "12345678",role1, new HashSet<>());
         User u2 = new User(2L, "lolkek", "123", role2, new HashSet<>());
 
         users.add(u1);

@@ -6,10 +6,12 @@
 </head>
 <body>
     <h1>Welcome</h1>
-    <form action="#" th:action="@{/login}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/login}" th:object="${userDto}" method="post">
         <input type="text" placeholder="login" th:field="*{username}">
+        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
         <br/>
         <input type="password" placeholder="password" th:field="*{password}">
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
         <br/>
         <input type="submit" value="Login">
     </form>

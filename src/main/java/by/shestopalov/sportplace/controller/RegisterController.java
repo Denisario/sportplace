@@ -1,17 +1,18 @@
 package by.shestopalov.sportplace.controller;
 
-import by.shestopalov.sportplace.config.Mapper;
 import by.shestopalov.sportplace.data.DataCore;
 import by.shestopalov.sportplace.dto.UserDto;
 import by.shestopalov.sportplace.entity.User;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -28,16 +29,22 @@ public class RegisterController {
     }
 
     @PostMapping(value = "/register")
-    public ModelAndView register(@ModelAttribute("user") UserDto userDto, Model model){
+    public ModelAndView register(@ModelAttribute("userDto") @Valid UserDto userDto,
+                                 Errors errors,
+                                 Model model){
         ModelAndView modelAndView = new ModelAndView();
 
         try {
+            if(errors.hasErrors()){
+                modelAndView.setViewName("register");
+                return modelAndView;
+            }
             register(userDto.getUsername(),
                     userDto.getPassword(),
                     userDto.getRepeatPassword());
 
             model.addAttribute("userDto", userDto);
-            modelAndView.setViewName("login");
+            modelAndView.setViewName("redirect:/login");
 
             log.info("/register - POST");
         } catch (Exception e) {
@@ -45,7 +52,6 @@ public class RegisterController {
             model.addAttribute("error", e.getMessage());
             log.info("/error - GET");
         }
-
 
         return modelAndView;
     }

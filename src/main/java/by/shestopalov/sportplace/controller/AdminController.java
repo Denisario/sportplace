@@ -20,7 +20,7 @@ public class AdminController {
            modelAndView.setViewName("error");
         }
 
-        log.info("/add - GET");
+        log.info("/admin - GET");
         return modelAndView;
     }
 

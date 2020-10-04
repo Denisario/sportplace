@@ -7,11 +7,13 @@ import by.shestopalov.sportplace.entity.Place;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.HashSet;
 
 @Slf4j
@@ -29,15 +31,21 @@ public class AddPlaceController {
     }
 
     @PostMapping(value = "/addPlace")
-    public ModelAndView addPlace(@ModelAttribute("place") PlaceDto placeDto){
+    public ModelAndView addPlace(@Valid @ModelAttribute("placeDto") PlaceDto placeDto,
+                                 Errors errors){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("adminPage");
+        if(errors.hasErrors()){
+            modelAndView.setViewName("addPlace");
+            return modelAndView;
+        }
 
         Place place = Mapper.map(placeDto, Place.class);
         place.setId((long)DataCore.places.size()+1);
 
         place.setEvents(new HashSet<>());
         DataCore.places.add(place);
+
+        modelAndView.setViewName("redirect:/admin");
 
         log.info("/addPlace - POST");
         return modelAndView;

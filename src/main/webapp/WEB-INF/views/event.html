@@ -19,10 +19,12 @@
             <p th:text="${comment.text}"></p>
         </div>
     </div>
-    <form action="#" th:action="@{/comments/{id}(id=${event.id})}" th:object="${comment}" method="post">
+    <form action="#" th:action="@{/events/{id}(id=${event.id})}" th:object="${commentDto}" method="post">
         <textarea placeholder="Write your comment" th:field="*{text}"></textarea>
+        <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></span>
         <br/>
         <input type="number" min="1" max="5" placeholder="rating" th:field="*{rating}">
+        <span th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></span>
         <br/>
         <input type="submit" value="Add comment">
     </form>

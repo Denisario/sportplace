@@ -12,10 +12,11 @@ public class DataCore {
     public static Set<Place> places = new HashSet<>();
     public static Set<Event> events = new HashSet<>();
     public static Set<Comment> comments = new HashSet<>();
+    public static Set<File> files = new HashSet<>();
 
     static {
-        Role role1 = new Role(1L, "USER");
-        Role role2 = new Role(2L, "ADMIN");
+        Role role1 = new Role(1L, "USER",null);
+        Role role2 = new Role(2L, "ADMIN",null);
 
         roles.add(role1);
         roles.add(role2);

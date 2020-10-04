@@ -1,5 +1,6 @@
 package by.shestopalov.sportplace.dto;
 
+import by.shestopalov.sportplace.entity.File;
 import by.shestopalov.sportplace.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 
 @Data
@@ -21,5 +23,5 @@ public class CommentDto {
     private String text;
     private User user;
     private String eventId;
-    private Set<String> filename;
+    private Collection<File> filename;
 }

@@ -17,8 +17,8 @@
             <h4 th:text="${comment.user.username}"></h4>
             <p th:text="${comment.rating}"></p>
             <p th:text="${comment.text}"></p>
-            <div th:if="${comment.filename.size()!=0}" th:each="filename: ${comment.filename}">
-                <img th:src="${filename}" alt="photo" th:width="100" th:height="100">
+            <div th:if="${comment.file.size()!=0}" th:each="filename: ${comment.file}">
+                <img th:src="${filename.filename}" alt="photo" th:width="100" th:height="100">
             </div>
         </div>
     </div>

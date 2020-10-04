@@ -60,7 +60,11 @@ public class CommentsController {
             String finalPath = UUID +"."+ file.getOriginalFilename();
             file.transferTo(new File(path+ "/"+finalPath));
 
-            commentDto.getFilename().add("../img/"+finalPath);
+            by.shestopalov.sportplace.entity.File commentImg = new by.shestopalov.sportplace.entity.File();
+            commentImg.setId((long)DataCore.files.size()+1);
+            commentImg.setFilename("../img/"+finalPath);
+
+            commentDto.getFilename().add(commentImg);
         }
 
         if(errors.hasErrors()||flag){
@@ -80,8 +84,17 @@ public class CommentsController {
 
         Comment comment = Mapper.map(commentDto, Comment.class);
         comment.setId((long) DataCore.comments.size()+1);
-
-        model.addAttribute("event", DataCore.events.stream().filter(x->x.getId().equals(id)).findFirst().get());
+        comment.setFile(new HashSet<>());
+        for (var x:commentDto.getFilename()) {
+            comment.getFile().add(x);
+        }
+        model.addAttribute("event", DataCore.
+                events
+                .stream()
+                .filter(x->x.getId()
+                        .equals(id))
+                .findFirst()
+                .get());
 
         comment.setUser(DataCore.users
                 .stream()
@@ -115,6 +128,7 @@ public class CommentsController {
                 .add(comment);
 
         DataCore.comments.add(comment);
+
         modelAndView.setViewName("event");
 
         log.info("/comments/{eventId} - POST");

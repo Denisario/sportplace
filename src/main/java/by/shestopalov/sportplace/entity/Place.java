@@ -2,8 +2,13 @@ package by.shestopalov.sportplace.entity;
 
 import lombok.*;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 
+@Entity(name = "PLACES")
 @Getter
 @Setter
 @ToString
@@ -11,11 +16,20 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Place {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PLACE_ID", nullable = false)
     private Long id;
+    @Column(name = "PLACE_NAME", nullable = false)
     private String name;
+    @Column(name = "PLACE_COUNTRY", nullable = false)
     private String country;
+    @Column(name = "PLACE_CITY", nullable = false)
     private String city;
+    @Column(name = "PLACE_STREET", nullable = false)
     private String street;
+    @Column(name = "PLACE_NUMBER", nullable = false)
     private Integer number;
-    private Set<Event> events;
+    @OneToMany(mappedBy = "place", fetch = FetchType.EAGER)
+    private Collection<Event> events;
 }

@@ -17,14 +17,21 @@
             <h4 th:text="${comment.user.username}"></h4>
             <p th:text="${comment.rating}"></p>
             <p th:text="${comment.text}"></p>
+            <div th:if="${comment.filename.size()!=0}" th:each="filename: ${comment.filename}">
+                <img th:src="${filename}" alt="photo" th:width="100" th:height="100">
+            </div>
         </div>
     </div>
-    <form action="#" th:action="@{/events/{id}(id=${event.id})}" th:object="${commentDto}" method="post">
+    <form action="#" th:action="@{/events/{id}(id=${event.id})}" th:object="${commentDto}" method="post" enctype="multipart/form-data">
         <textarea placeholder="Write your comment" th:field="*{text}"></textarea>
         <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></span>
         <br/>
         <input type="number" min="1" max="5" placeholder="rating" th:field="*{rating}">
         <span th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></span>
+        <br/>
+        <input type="file" name="file" multiple>
+        <br/>
+        <span th:if="${fileError}" th:text="${fileError}"></span>
         <br/>
         <input type="submit" value="Add comment">
     </form>

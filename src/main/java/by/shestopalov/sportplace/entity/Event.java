@@ -21,5 +21,4 @@ public class Event {
     private Date finishDate;
     private Place place;
     private Set<Comment> comments;
-
 }

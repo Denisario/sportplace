@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -20,4 +21,5 @@ public class CommentDto {
     private String text;
     private User user;
     private String eventId;
+    private Set<String> filename;
 }

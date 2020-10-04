@@ -2,6 +2,8 @@ package by.shestopalov.sportplace.entity;
 
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @ToString
@@ -14,4 +16,5 @@ public class Comment {
     private String text;
     private User user;
     private Event event;
+    private Set<String> filename;
 }

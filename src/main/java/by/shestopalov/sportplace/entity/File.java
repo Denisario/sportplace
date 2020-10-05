@@ -1,13 +1,15 @@
 package by.shestopalov.sportplace.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity(name = "FILES")
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"comment"})
+@EqualsAndHashCode(exclude = {"comment"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class File {
@@ -17,10 +19,7 @@ public class File {
     private Long id;
     @Column(name = "FILE_FILENAME", nullable = false)
     private String filename;
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "COMMENT_ID")
     private Comment comment;
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_ID")
-    private User user;
 }

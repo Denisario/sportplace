@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity(name = "EVENTS")
 @Getter
 @Setter
-@ToString(exclude = {"place", "comments"})
+@ToString(exclude = {"place"})
 @EqualsAndHashCode(exclude = {"place", "comments"})
 @AllArgsConstructor
 @NoArgsConstructor

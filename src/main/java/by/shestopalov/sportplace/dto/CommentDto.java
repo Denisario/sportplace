@@ -21,7 +21,6 @@ public class CommentDto {
     @NotBlank(message = "Enter text")
     @Size(min = 10, max = 150, message = "Text size between 10 and 150 symbols")
     private String text;
-    private User user;
     private String eventId;
     private Collection<File> filename;
 }

@@ -1,5 +1,6 @@
 package by.shestopalov.sportplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,8 +9,8 @@ import java.util.Collection;
 @Entity(name = "COMMENTS")
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode(exclude = {"user", "event"})
+@ToString(exclude = {"user", "event"})
+@EqualsAndHashCode(exclude = {"user", "event", "file"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment {
@@ -22,11 +23,11 @@ public class Comment {
     @Column(name = "COMMENT_TEXT", nullable = false, length = 150)
     private String text;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_ID")
-    private User user;
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "EVENTS_ID")
     private Event event;
-    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     private Collection<File> file;
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_ID")
+    private User user;
 }

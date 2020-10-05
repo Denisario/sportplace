@@ -1,9 +1,9 @@
 package by.shestopalov.sportplace.controller;
 
-import by.shestopalov.sportplace.data.DataCore;
 import by.shestopalov.sportplace.dto.UserDto;
-import by.shestopalov.sportplace.entity.User;
+import by.shestopalov.sportplace.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,6 +17,13 @@ import javax.validation.Valid;
 @Slf4j
 @Controller
 public class RegisterController {
+    private final UserServiceImpl userService;
+
+    @Autowired
+    public RegisterController(UserServiceImpl userService) {
+        this.userService = userService;
+    }
+
     @GetMapping(value = "/register")
     public ModelAndView getRegisterPage(Model model){
         ModelAndView modelAndView = new ModelAndView();
@@ -39,7 +46,8 @@ public class RegisterController {
                 modelAndView.setViewName("register");
                 return modelAndView;
             }
-            register(userDto.getUsername(),
+
+            userService.register(userDto.getUsername(),
                     userDto.getPassword(),
                     userDto.getRepeatPassword());
 
@@ -54,32 +62,5 @@ public class RegisterController {
         }
 
         return modelAndView;
-    }
-
-    private void register(String username, String password, String repeatPassword) throws Exception {
-        if(DataCore.users
-                .stream()
-                .anyMatch(x->x.getUsername()
-                        .equals(username))){
-            throw new Exception("User already registered");
-        }
-
-        if(!password.equals(repeatPassword)){
-            throw new Exception("Passwords are not equal");
-        }
-
-        User user = new User();
-        user.setId((long)DataCore.users.size()+1);
-        user.setUsername(username);
-        user.setPassword(password);
-
-        user.setRole(DataCore.roles
-                .stream()
-                .filter(x->x.getName()
-                        .equals("USER"))
-                .findFirst()
-                .get());
-
-        DataCore.users.add(user);
     }
 }

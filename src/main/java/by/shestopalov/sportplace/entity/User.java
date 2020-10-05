@@ -23,7 +23,7 @@ public class User {
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "ROLE_ID")
     private Role role;
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Collection<Comment> comments;
 
 }

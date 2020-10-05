@@ -1,12 +1,10 @@
 package by.shestopalov.sportplace.controller;
 
-import by.shestopalov.sportplace.config.Mapper;
-import by.shestopalov.sportplace.data.DataCore;
 import by.shestopalov.sportplace.dto.UserDto;
 import by.shestopalov.sportplace.entity.User;
-import by.shestopalov.sportplace.exceptions.IncorrectPasswordException;
-import by.shestopalov.sportplace.exceptions.UserNameNotFoundException;
+import by.shestopalov.sportplace.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -23,6 +21,13 @@ import java.util.Optional;
 @Slf4j
 @Controller
 public class LoginController {
+    private final UserServiceImpl userService;
+
+    @Autowired
+    public LoginController(UserServiceImpl userService) {
+        this.userService = userService;
+    }
+
     @GetMapping(value = "/login")
     public ModelAndView getLoginPage(Model model){
         log.info("/login - GET");
@@ -40,25 +45,23 @@ public class LoginController {
                               Model model,
                               HttpServletResponse response){
         ModelAndView modelAndView = new ModelAndView();
+
         userDto.setRepeatPassword(userDto.getPassword());
+
         try{
             if(errors.hasErrors()){
-                System.out.println(userDto);
                 modelAndView.setViewName("login");
                 return modelAndView;
             }
+
             modelAndView.setViewName("login");
 
-            User user = Mapper.map(userDto, User.class);
-
-            user.setUsername(user.getUsername().toLowerCase());
-
-            model.addAttribute("user", user);
-
-            Optional<User> possibleUser = login(user.getUsername(), user.getPassword());
+            Optional<User> possibleUser = userService.login(userDto);
 
             if(possibleUser.isPresent()){
-                Cookie cookie = new Cookie("username", possibleUser.get().getUsername());
+                Cookie cookie = new Cookie("username", possibleUser
+                        .get()
+                        .getUsername());
                 response.addCookie(cookie);
 
                 log.info("/login - POST");
@@ -67,19 +70,9 @@ public class LoginController {
         } catch (Exception e) {
             modelAndView.setViewName("error");
             model.addAttribute("error", e.getMessage());
+            log.info("/error - GET");
         }
 
         return modelAndView;
-    }
-
-    private Optional<User> login(String username, String password) throws UserNameNotFoundException, IncorrectPasswordException {
-        User user = DataCore.users
-                .stream()
-                .filter(x->x.getUsername().equals(username))
-                .findFirst()
-                .orElseThrow(()->new UserNameNotFoundException("User not found"));
-
-        if(!user.getPassword().equals(password)) throw new IncorrectPasswordException("Incorrect password");
-        return Optional.of(user);
     }
 }

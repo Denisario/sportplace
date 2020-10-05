@@ -1,5 +1,6 @@
 package by.shestopalov.sportplace.service.impl;
 
+import by.shestopalov.sportplace.aspect.Loggable;
 import by.shestopalov.sportplace.config.Mapper;
 import by.shestopalov.sportplace.dto.CommentDto;
 import by.shestopalov.sportplace.entity.Comment;
@@ -44,11 +45,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Loggable
     public Collection<Comment> getAllComments() {
         return commentRepository.findAll();
     }
 
     @Override
+    @Loggable
     public Optional<Collection<Comment>> getAllCommentsByEventId(Long id) {
         return commentRepository.getCommentByEventId(id);
     }

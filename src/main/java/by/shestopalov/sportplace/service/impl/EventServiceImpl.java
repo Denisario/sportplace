@@ -1,5 +1,6 @@
 package by.shestopalov.sportplace.service.impl;
 
+import by.shestopalov.sportplace.aspect.Loggable;
 import by.shestopalov.sportplace.config.Mapper;
 import by.shestopalov.sportplace.dto.EventDto;
 import by.shestopalov.sportplace.entity.Event;
@@ -26,21 +27,25 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Loggable
     public Collection<Event> getAllEvents() {
         return eventRepository.findAll();
     }
 
     @Override
+    @Loggable
     public Optional<Event> getEventById(Long id) {
         return eventRepository.findById(id);
     }
 
     @Override
+    @Loggable
     public Optional<Event> getEventByName(String name) {
         return eventRepository.getEventByName(name);
     }
 
     @Override
+    @Loggable
     public void saveEvent(EventDto eventDto) {
         Event event = Mapper.map(eventDto, Event.class);
         event.setPlace(placeRepository

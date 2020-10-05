@@ -1,5 +1,6 @@
 package by.shestopalov.sportplace.service.impl;
 
+import by.shestopalov.sportplace.aspect.Loggable;
 import by.shestopalov.sportplace.config.Mapper;
 import by.shestopalov.sportplace.dto.UserDto;
 import by.shestopalov.sportplace.entity.User;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Loggable
     public Optional<User> login(UserDto userDto) throws UserNameNotFoundException, IncorrectPasswordException {
         User user = Mapper.map(userDto, User.class);
 
@@ -44,6 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Loggable
     public void register(String username, String password, String repeatPassword) throws Exception {
         if(userRepository
                 .findUserByUsername(username)
@@ -63,11 +66,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Loggable
     public boolean isAdmin(String username) {
         return userRepository.findUserByUsername(username).get().getRole().getName().equals("ADMIN");
     }
 
     @Override
+    @Loggable
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }

@@ -1,5 +1,6 @@
 package by.shestopalov.sportplace.service.impl;
 
+import by.shestopalov.sportplace.aspect.Loggable;
 import by.shestopalov.sportplace.config.Mapper;
 import by.shestopalov.sportplace.dto.PlaceDto;
 import by.shestopalov.sportplace.entity.Place;
@@ -23,21 +24,25 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
+    @Loggable
     public Collection<Place> getAllPlaces() {
         return placeRepository.findAll();
     }
 
     @Override
+    @Loggable
     public Optional<Place> getPlaceById(Long id) {
         return placeRepository.findById(id);
     }
 
     @Override
+    @Loggable
     public Optional<Place> getPlaceByName(String name) {
         return placeRepository.getPlaceByName(name);
     }
 
     @Override
+    @Loggable
     public void savePlace(PlaceDto placeDto) {
         Place place = Mapper.map(placeDto, Place.class);
 

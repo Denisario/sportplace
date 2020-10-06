@@ -1,6 +1,7 @@
 package by.shestopalov.sportplace.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,10 +25,13 @@ public class Comment {
     private String text;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "EVENTS_ID")
+    @JsonManagedReference
     private Event event;
     @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @JsonBackReference
     private Collection<File> file;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
+    @JsonManagedReference
     private User user;
 }

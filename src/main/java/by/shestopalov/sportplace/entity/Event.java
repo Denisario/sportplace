@@ -1,11 +1,11 @@
 package by.shestopalov.sportplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
@@ -31,7 +31,9 @@ public class Event {
     private Date finishDate;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "PLACE_ID")
+    @JsonManagedReference
     private Place place;
-    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Comment> comments;
 }

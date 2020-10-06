@@ -8,8 +8,8 @@ import by.shestopalov.sportplace.exceptions.UserNameNotFoundException;
 import java.util.Optional;
 
 public interface UserService {
-    Optional<User> login(UserDto userDto) throws UserNameNotFoundException, IncorrectPasswordException;
-    void register(String username, String password, String repeatPassword) throws Exception;
+    User login(UserDto userDto) throws UserNameNotFoundException, IncorrectPasswordException;
+    void register(UserDto userDto) throws Exception;
     boolean isAdmin(String username);
-    Optional<User> getUserByUsername(String username);
+    User getUserByUsername(String username);
 }

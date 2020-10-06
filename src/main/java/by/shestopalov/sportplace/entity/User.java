@@ -1,5 +1,7 @@
 package by.shestopalov.sportplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,8 +24,10 @@ public class User {
     private String password;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "ROLE_ID")
+    @JsonManagedReference
     private Role role;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonBackReference
     private Collection<Comment> comments;
 
 }

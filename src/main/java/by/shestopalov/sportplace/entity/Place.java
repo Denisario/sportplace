@@ -1,5 +1,7 @@
 package by.shestopalov.sportplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,5 +33,6 @@ public class Place {
     @Column(name = "PLACE_NUMBER", nullable = false)
     private Integer number;
     @OneToMany(mappedBy = "place", fetch = FetchType.EAGER)
+    @JsonBackReference
     private Collection<Event> events;
 }

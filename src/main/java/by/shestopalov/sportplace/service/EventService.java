@@ -4,11 +4,10 @@ import by.shestopalov.sportplace.dto.EventDto;
 import by.shestopalov.sportplace.entity.Event;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface EventService {
     Collection<Event> getAllEvents();
-    Optional<Event> getEventById(Long id);
-    Optional<Event> getEventByName(String name);
+    Event getEventById(Long id) throws Exception;
+    Event getEventByName(String name) throws Exception;
     void saveEvent(EventDto eventDto);
 }

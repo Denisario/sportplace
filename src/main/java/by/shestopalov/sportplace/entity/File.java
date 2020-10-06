@@ -21,5 +21,6 @@ public class File {
     private String filename;
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "COMMENT_ID")
+    @JsonManagedReference
     private Comment comment;
 }

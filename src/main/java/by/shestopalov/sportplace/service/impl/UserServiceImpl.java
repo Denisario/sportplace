@@ -12,7 +12,6 @@ import by.shestopalov.sportplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Loggable
-    public Optional<User> login(UserDto userDto) throws UserNameNotFoundException, IncorrectPasswordException {
+    public User login(UserDto userDto) throws UserNameNotFoundException, IncorrectPasswordException {
         User user = Mapper.map(userDto, User.class);
 
         user.setUsername(user.getUsername().toLowerCase());
@@ -42,23 +41,26 @@ public class UserServiceImpl implements UserService {
                 .equals(userDto
                         .getPassword())) throw new IncorrectPasswordException("Incorrect password");
 
-        return Optional.of(user);
+        return user;
     }
 
     @Override
     @Loggable
-    public void register(String username, String password, String repeatPassword) throws Exception {
+    public void register(UserDto userDto) throws Exception {
         if(userRepository
-                .findUserByUsername(username)
+                .findUserByUsername(userDto.getUsername())
                 .isPresent()) throw new Exception("User has already registered");
 
-        if(!password.equals(repeatPassword)){
+        if(!userDto
+                .getPassword()
+                .equals(userDto
+                        .getRepeatPassword())){
             throw new Exception("Passwords are not equal");
         }
 
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userDto.getPassword());
 
         user.setRole(roleRepository.getRoleByName("USER"));
 
@@ -68,12 +70,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Loggable
     public boolean isAdmin(String username) {
-        return userRepository.findUserByUsername(username).get().getRole().getName().equals("ADMIN");
+        return userRepository.findUserByUsername(username)
+                .get()
+                .getRole()
+                .getName()
+                .equals("ADMIN");
     }
 
     @Override
     @Loggable
-    public Optional<User> getUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+    public User getUserByUsername(String username) {
+        return userRepository
+                .findUserByUsername(username)
+                .get();
     }
 }

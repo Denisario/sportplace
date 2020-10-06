@@ -10,15 +10,12 @@ import by.shestopalov.sportplace.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -52,22 +49,28 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Loggable
-    public Optional<Collection<Comment>> getAllCommentsByEventId(Long id) {
-        return commentRepository.getCommentByEventId(id);
+    public Collection<Comment> getAllCommentsByEventId(Long id) {
+        return commentRepository
+                .getCommentByEventId(id)
+                .get();
     }
 
     @Override
     public void addComment(CommentDto commentDto,
                            Set<MultipartFile> files,
-                           Model model,
-                           HttpServletRequest req) throws IOException {
+                           HttpServletRequest req) throws Exception {
         commentDto.setFilename(new HashSet<>());
 
         for (var file : files) {
-            if (file.getOriginalFilename().equals("")) continue;
+            if (file
+                    .getOriginalFilename()
+                    .equals("")) continue;
 
-            if (!file.getOriginalFilename().matches("^(?:.*\\.(?=(jpg|jpeg|png|bmp)$))?[^.]*$") && !file.getOriginalFilename().equals("")) {
-                model.addAttribute("fileError", "You try to load no image");
+            if (!file
+                    .getOriginalFilename()
+                    .matches("^(?:.*\\.(?=(jpg|jpeg|png|bmp)$))?[^.]*$") && !file.
+                    getOriginalFilename()
+                    .equals("")) {
             }
 
             java.io.File fileDir = new java.io.File(path);
@@ -95,8 +98,12 @@ public class CommentServiceImpl implements CommentService {
             x.setComment(comment);
         }
 
-        comment.setEvent(eventService.getEventById(Long.parseLong(commentDto.getEventId())).get());
-        comment.setUser(userService.getUserByUsername(getUsernameCookie(req.getCookies())).get());
+        comment.setEvent(eventService
+                .getEventById(Long.parseLong(commentDto
+                        .getEventId())));
+        comment.setUser(userService
+                .getUserByUsername(getUsernameCookie(req
+                        .getCookies())));
 
         commentRepository.save(comment);
     }

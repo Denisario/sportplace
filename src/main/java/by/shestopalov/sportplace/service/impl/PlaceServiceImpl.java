@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,14 +30,16 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     @Loggable
-    public Optional<Place> getPlaceById(Long id) {
-        return placeRepository.findById(id);
+    public Place getPlaceById(Long id) {
+        return placeRepository.findById(id).get();
     }
 
     @Override
     @Loggable
-    public Optional<Place> getPlaceByName(String name) {
-        return placeRepository.getPlaceByName(name);
+    public Place getPlaceByName(String name) {
+        return placeRepository
+                .getPlaceByName(name)
+                .get();
     }
 
     @Override

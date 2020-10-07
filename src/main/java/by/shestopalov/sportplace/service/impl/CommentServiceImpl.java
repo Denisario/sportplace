@@ -85,7 +85,7 @@ public class CommentServiceImpl implements CommentService {
             by.shestopalov.sportplace.entity.File commentImg = new by.shestopalov.sportplace.entity.File();
 
             commentImg.setComment(new Comment());
-            commentImg.setFilename("../img/" + finalPath);
+            commentImg.setFilename(finalPath);
             commentDto.getFilename().add(commentImg);
         }
 

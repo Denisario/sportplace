@@ -56,18 +56,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Loggable
     public void addComment(CommentDto commentDto,
-                           Set<MultipartFile> files,
+                           Collection<MultipartFile> files,
                            HttpServletRequest req) throws Exception {
         commentDto.setFilename(new HashSet<>());
 
         for (var file : files) {
-            if (file
-                    .getOriginalFilename()
+            if (file.getOriginalFilename()
                     .equals("")) continue;
 
-            if (!file
-                    .getOriginalFilename()
+            if (!file.getOriginalFilename()
                     .matches("^(?:.*\\.(?=(jpg|jpeg|png|bmp)$))?[^.]*$") && !file.
                     getOriginalFilename()
                     .equals("")) {
@@ -76,7 +75,7 @@ public class CommentServiceImpl implements CommentService {
             java.io.File fileDir = new java.io.File(path);
 
             if (!fileDir.exists()) {
-                fileDir.mkdirs();
+                fileDir.mkdir();
             }
 
             String UUID = java.util.UUID.randomUUID().toString();
@@ -99,21 +98,13 @@ public class CommentServiceImpl implements CommentService {
         }
 
         comment.setEvent(eventService
-                .getEventById(Long.parseLong(commentDto
-                        .getEventId())));
+                .getEventById(commentDto
+                        .getEventId()));
         comment.setUser(userService
-                .getUserByUsername(getUsernameCookie(req
-                        .getCookies())));
+                .getUserByUsername("denisario"));
+
+
 
         commentRepository.save(comment);
-    }
-
-    private String getUsernameCookie(Cookie[] cookie){
-        for(Cookie c:cookie){
-            if(c.getName().equals("username")){
-                return c.getValue();
-            }
-        }
-        return null;
     }
 }

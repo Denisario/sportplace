@@ -12,6 +12,6 @@ public interface CommentService {
     Collection<Comment> getAllComments();
     Collection<Comment> getAllCommentsByEventId(Long id);
     void addComment(CommentDto commentDto,
-                    Set<MultipartFile> files,
+                    Collection<MultipartFile> files,
                     HttpServletRequest req) throws Exception;
 }

@@ -21,9 +21,14 @@ public class EventRestController {
         this.eventService = eventService;
     }
 
-    @GetMapping(value = "/rest/api/v1/events")
-    public ResponseEntity<Integer> getAllEvents(){
+    @GetMapping(value = "/rest/api/v1/events/length")
+    public ResponseEntity<Integer> getAllEventsByInput(){
         return new ResponseEntity<>(eventService.getAllEvents().size(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/rest/api/v1/events/input")
+    public ResponseEntity<Collection<Event>> getAllEventsByInput(@RequestParam("input") String input, @RequestParam("page") Integer page, @RequestParam("size") Integer size){
+        return new ResponseEntity<>(eventService.getAllEventByName(input, page, size), HttpStatus.OK);
     }
 
     @GetMapping(value = "/rest/api/v1/events/{id}")
@@ -35,7 +40,7 @@ public class EventRestController {
         }
     }
 
-    @GetMapping(value = "/rest/api/v1/event")
+    @GetMapping(value = "/rest/api/v1/events")
     public ResponseEntity<Collection<Event>> getNumberOfEvents(@RequestParam("page") Integer page, @RequestParam("size") Integer size){
         return new ResponseEntity<>(eventService.getEvents(page, size),HttpStatus.OK);
     }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -49,10 +50,10 @@ public class EventServiceImpl implements EventService {
     @Loggable
     public Event getEventByName(String name) throws Exception {
         if(eventRepository
-                .getEventByName(name)
+                .findEventByName(name)
                 .isEmpty()) throw new Exception("Event not found");
         return eventRepository
-                .getEventByName(name)
+                .findEventByName(name)
                 .get();
     }
 
@@ -70,8 +71,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Loggable
     public Collection<Event> getEvents(int page, int counter) {
         Pageable pageable = PageRequest.of(page, counter);
         return eventRepository.findAll(pageable).getContent();
+    }
+
+    @Override
+    @Loggable
+    public Collection<Event> getAllEventByName(String name, int page, int counter) {
+        Pageable pageable = PageRequest.of(page, counter);
+        return eventRepository.findAll(pageable).stream().filter(x->x.getName().contains(name)).collect(Collectors.toList());
     }
 }

@@ -8,6 +8,8 @@ import by.shestopalov.sportplace.repository.EventRepository;
 import by.shestopalov.sportplace.repository.PlaceRepository;
 import by.shestopalov.sportplace.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -65,5 +67,11 @@ public class EventServiceImpl implements EventService {
 
         event.setComments(new HashSet<>());
         eventRepository.save(event);
+    }
+
+    @Override
+    public Collection<Event> getEvents(int page, int counter) {
+        Pageable pageable = PageRequest.of(page, counter);
+        return eventRepository.findAll(pageable).getContent();
     }
 }

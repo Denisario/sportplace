@@ -22,8 +22,8 @@ public class EventRestController {
     }
 
     @GetMapping(value = "/rest/api/v1/events")
-    public ResponseEntity<Collection<Event>> getAllEvents(){
-        return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
+    public ResponseEntity<Integer> getAllEvents(){
+        return new ResponseEntity<>(eventService.getAllEvents().size(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/rest/api/v1/events/{id}")
@@ -33,6 +33,11 @@ public class EventRestController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping(value = "/rest/api/v1/event")
+    public ResponseEntity<Collection<Event>> getNumberOfEvents(@RequestParam("page") Integer page, @RequestParam("size") Integer size){
+        return new ResponseEntity<>(eventService.getEvents(page, size),HttpStatus.OK);
     }
 
     @PostMapping(value = "/rest/api/v1/events")

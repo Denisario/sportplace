@@ -10,4 +10,5 @@ public interface EventService {
     Event getEventById(Long id) throws Exception;
     Event getEventByName(String name) throws Exception;
     void saveEvent(EventDto eventDto);
+    Collection<Event> getEvents(int page, int counter);
 }

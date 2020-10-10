@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -62,7 +63,7 @@ public class EventServiceImpl implements EventService {
     public void saveEvent(@Valid EventDto eventDto) {
         Event event = Mapper.map(eventDto, Event.class);
         event.setPlace(placeRepository
-                .getPlaceByName(eventDto
+                .findPlaceByName(eventDto
                         .getPlaceName())
                 .get());
 
@@ -81,6 +82,19 @@ public class EventServiceImpl implements EventService {
     @Loggable
     public Collection<Event> getAllEventByName(String name, int page, int counter) {
         Pageable pageable = PageRequest.of(page, counter);
-        return eventRepository.findAll(pageable).stream().filter(x->x.getName().contains(name)).collect(Collectors.toList());
+        return eventRepository.findAll(pageable)
+                .stream()
+                .filter(x->x.getName()
+                        .contains(name))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Event> getAllEventByParams(EventDto eventDto) {
+        return eventRepository.getEventsByParams(eventDto.getName(),
+                eventDto.getPlaceName(),
+                eventDto.getStartDate(),
+                eventDto.getFinishDate())
+                .get();
     }
 }

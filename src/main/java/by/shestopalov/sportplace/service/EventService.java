@@ -12,4 +12,5 @@ public interface EventService {
     void saveEvent(EventDto eventDto);
     Collection<Event> getEvents(int page, int counter);
     Collection<Event> getAllEventByName(String name, int page, int counter);
+    Collection<Event> getAllEventByParams(EventDto eventDto);
 }

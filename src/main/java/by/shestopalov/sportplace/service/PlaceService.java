@@ -12,4 +12,6 @@ public interface PlaceService {
     Place getPlaceByName(String name);
     void savePlace(PlaceDto placeDto);
     Collection<String> convertToNames();
+    Collection<String> getAllCountries();
+    Collection<String> getAllPlaceNameByCountryName(String name);
 }

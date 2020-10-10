@@ -4,12 +4,14 @@ import by.shestopalov.sportplace.dto.EventDto;
 import by.shestopalov.sportplace.entity.Event;
 import by.shestopalov.sportplace.service.impl.EventServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Date;
 
 @CrossOrigin(value = "*")
 @RestController
@@ -49,5 +51,15 @@ public class EventRestController {
     public ResponseEntity<Event> saveEvent(@RequestBody @Valid EventDto eventDto){
         eventService.saveEvent(eventDto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/rest/api/v1/events/params")
+    public ResponseEntity<Collection<Event>> getAllEventsByParams(@RequestParam(value = "country", required = false)  String country,
+                                                                  @RequestParam(value = "place", required = false)  String place,
+                                                                  @RequestParam(value = "startDate", required = false)
+                                                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                                                  @RequestParam(value = "finishDate", required = false)
+                                                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date finishDate){
+        return new ResponseEntity<>(eventService.getAllEventByParams(new EventDto(country, startDate, finishDate, place)), HttpStatus.OK);
     }
 }

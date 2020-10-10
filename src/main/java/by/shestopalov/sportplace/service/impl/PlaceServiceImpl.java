@@ -38,7 +38,7 @@ public class PlaceServiceImpl implements PlaceService {
     @Loggable
     public Place getPlaceByName(String name) {
         return placeRepository
-                .getPlaceByName(name)
+                .findPlaceByName(name)
                 .get();
     }
 
@@ -58,5 +58,15 @@ public class PlaceServiceImpl implements PlaceService {
                 .stream()
                 .map(Place::getName)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Collection<String> getAllCountries() {
+        return placeRepository.getAllCountries();
+    }
+
+    @Override
+    public Collection<String> getAllPlaceNameByCountryName(String name) {
+        return placeRepository.getAllPlaceNamesByCountry(name).get();
     }
 }

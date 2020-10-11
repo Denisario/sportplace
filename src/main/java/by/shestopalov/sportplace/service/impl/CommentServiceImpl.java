@@ -16,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -49,10 +50,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Loggable
-    public Collection<Comment> getAllCommentsByEventId(Long id) {
+    public Optional<Collection<Comment>> getAllCommentsByEventId(Long id) {
         return commentRepository
-                .getCommentByEventId(id)
-                .get();
+                .getCommentByEventId(id);
     }
 
     @Override
@@ -106,5 +106,10 @@ public class CommentServiceImpl implements CommentService {
 
 
         commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteCommentsByEventId(Long eventId) {
+        commentRepository.deleteCommentsByEventId(eventId);
     }
 }

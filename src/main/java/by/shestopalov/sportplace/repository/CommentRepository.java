@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Collection<Comment>> getCommentByEventId(Long eventId);
+    void deleteCommentsByEventId(Long eventId);
 }

@@ -16,10 +16,14 @@ import java.util.stream.Collectors;
 @Service
 public class PlaceServiceImpl implements PlaceService {
     private final PlaceRepository placeRepository;
+    private final EventServiceImpl eventService;
+    private final CommentServiceImpl commentService;
 
     @Autowired
-    public PlaceServiceImpl(PlaceRepository placeRepository) {
+    public PlaceServiceImpl(PlaceRepository placeRepository, EventServiceImpl eventService, CommentServiceImpl commentService) {
         this.placeRepository = placeRepository;
+        this.eventService = eventService;
+        this.commentService = commentService;
     }
 
     @Override
@@ -68,5 +72,33 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public Collection<String> getAllPlaceNameByCountryName(String name) {
         return placeRepository.getAllPlaceNamesByCountry(name).get();
+    }
+
+    @Override
+    public void deletePlace(Long id) {
+        if(eventService.getAllEventsByPlaceId(id).isPresent()){
+            for (var x:eventService.getAllEventsByPlaceId(id).get()) {
+                if(commentService.getAllCommentsByEventId(x.getId()).isPresent()){
+                    for(var y: commentService.getAllCommentsByEventId(x.getId()).get()){
+                        commentService.deleteCommentsByEventId(y.getId());
+                    }
+                }
+
+                eventService.deleteAllEventsByPlaceId(id);
+            }
+        }
+        placeRepository.deletePlaceById(id);
+    }
+
+    @Override
+    public Place updatePlace(PlaceDto place, Long placeId) {
+        Place placeToUpdate=placeRepository.findById(placeId).get();
+        placeToUpdate.setId(place.getId());
+        placeToUpdate.setCity(place.getCity());
+        placeToUpdate.setName(place.getName());
+        placeToUpdate.setCountry(place.getCountry());
+        placeToUpdate.setNumber(place.getNumber());
+        placeToUpdate.setStreet(place.getStreet());
+        return placeRepository.save(placeToUpdate);
     }
 }

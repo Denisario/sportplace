@@ -32,7 +32,7 @@ public class Place {
     private String street;
     @Column(name = "PLACE_NUMBER", nullable = false)
     private Integer number;
-    @OneToMany(mappedBy = "place", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "place", fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonBackReference
     private Collection<Event> events;
 }

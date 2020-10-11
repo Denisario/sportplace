@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -96,5 +97,15 @@ public class EventServiceImpl implements EventService {
                 eventDto.getStartDate(),
                 eventDto.getFinishDate())
                 .get();
+    }
+
+    @Override
+    public void deleteAllEventsByPlaceId(Long placeId) {
+        placeRepository.deletePlaceById(placeId);
+    }
+
+    @Override
+    public Optional<Collection<Event>> getAllEventsByPlaceId(Long placeId) {
+        return eventRepository.getEventsByPlaceId(placeId);
     }
 }

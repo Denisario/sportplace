@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface EventRepository extends PagingAndSortingRepository<Event, Long> {
     Optional<Event> findEventByName(String name);
     Collection<Event> findAll();
+    Optional<Collection<Event>> getEventsByPlaceId(Long placeId);
     @Query("SELECT e from EVENTS e where (?1 is null or e.place.country = ?1) and (?2 is null or e.place.name = ?2) and (?3 is null or e.startDate > ?3) and (?4 is null or e.finishDate < ?4)")
     Optional<Collection<Event>> getEventsByParams(String country, String place, Date startDate, Date finishDate);
+    void deleteEventsByPlaceId(Long placeId);
 }

@@ -14,4 +14,6 @@ public interface PlaceService {
     Collection<String> convertToNames();
     Collection<String> getAllCountries();
     Collection<String> getAllPlaceNameByCountryName(String name);
+    void deletePlace(Long id);
+    Place updatePlace(PlaceDto place, Long placeId);
 }

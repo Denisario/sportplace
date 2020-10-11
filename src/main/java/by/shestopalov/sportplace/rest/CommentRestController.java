@@ -25,7 +25,7 @@ public class CommentRestController {
 
     @GetMapping(value = "/rest/api/v1/comments/{eventId}")
     public ResponseEntity<Collection<Comment>> getAllComments(@PathVariable("eventId") Long eventId){
-        return new ResponseEntity<>(commentService.getAllCommentsByEventId(eventId), HttpStatus.OK);
+        return new ResponseEntity<>(commentService.getAllCommentsByEventId(eventId).get(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/rest/api/v1/comments", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

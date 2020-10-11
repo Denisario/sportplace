@@ -97,7 +97,7 @@ public class PlaceServiceImpl implements PlaceService {
         placeToUpdate.setCity(place.getCity());
         placeToUpdate.setName(place.getName());
         placeToUpdate.setCountry(place.getCountry());
-        placeToUpdate.setNumber(place.getNumber());
+        placeToUpdate.setNumber(place.getPlaceNumber());
         placeToUpdate.setStreet(place.getStreet());
         return placeRepository.save(placeToUpdate);
     }

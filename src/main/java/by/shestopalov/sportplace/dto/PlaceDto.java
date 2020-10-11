@@ -23,5 +23,5 @@ public class PlaceDto {
     @NotBlank(message = "Street can not be null")
     private String street;
     @NotNull(message = "Number of building can not be null")
-    private Integer number;
+    private Integer placeNumber;
 }

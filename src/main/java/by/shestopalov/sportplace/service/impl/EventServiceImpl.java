@@ -4,6 +4,7 @@ import by.shestopalov.sportplace.aspect.Loggable;
 import by.shestopalov.sportplace.config.Mapper;
 import by.shestopalov.sportplace.dto.EventDto;
 import by.shestopalov.sportplace.entity.Event;
+import by.shestopalov.sportplace.repository.CommentRepository;
 import by.shestopalov.sportplace.repository.EventRepository;
 import by.shestopalov.sportplace.repository.PlaceRepository;
 import by.shestopalov.sportplace.service.EventService;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,12 +23,15 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final PlaceRepository placeRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public EventServiceImpl(EventRepository eventRepository,
-                            PlaceRepository placeRepository) {
+                            PlaceRepository placeRepository,
+                            CommentRepository commentRepository) {
         this.eventRepository = eventRepository;
         this.placeRepository = placeRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -107,5 +110,25 @@ public class EventServiceImpl implements EventService {
     @Override
     public Optional<Collection<Event>> getAllEventsByPlaceId(Long placeId) {
         return eventRepository.getEventsByPlaceId(placeId);
+    }
+
+    @Override
+    public void deleteEvent(Long id) {
+        if(commentRepository.getCommentsByEventId(id).isPresent()){
+            for(var y: commentRepository.getCommentsByEventId(id).get()){
+                commentRepository.deleteCommentsByEventId(y.getId());
+            }
+        }
+        eventRepository.deleteEventById(id);
+    }
+
+    @Override
+    public void updateEvent(EventDto eventDto, Long id) {
+        Event eventToUpdate=eventRepository.findById(id).get();
+        eventToUpdate.setName(eventDto.getName());
+        eventToUpdate.setStartDate(eventDto.getStartDate());
+        eventToUpdate.setFinishDate(eventDto.getFinishDate());
+        eventToUpdate.setPlace(placeRepository.findPlaceByName(eventDto.getPlaceName()).get());
+        eventRepository.save(eventToUpdate);
     }
 }

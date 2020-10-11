@@ -1,7 +1,9 @@
 package by.shestopalov.sportplace.rest;
 
 import by.shestopalov.sportplace.dto.EventDto;
+import by.shestopalov.sportplace.dto.PlaceDto;
 import by.shestopalov.sportplace.entity.Event;
+import by.shestopalov.sportplace.entity.Place;
 import by.shestopalov.sportplace.service.impl.EventServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -61,5 +63,17 @@ public class EventRestController {
                                                                   @RequestParam(value = "finishDate", required = false)
                                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date finishDate){
         return new ResponseEntity<>(eventService.getAllEventByParams(new EventDto(country, startDate, finishDate, place)), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/rest/api/v1/events/{id}")
+    public ResponseEntity<Event> deleteEventById(@PathVariable("id") Long id){
+        eventService.deleteEvent(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/rest/api/v1/events/{id}")
+    public ResponseEntity<Event> updatePlace(@PathVariable("id") Long id, @RequestBody EventDto eventDto){
+        eventService.updateEvent(eventDto, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

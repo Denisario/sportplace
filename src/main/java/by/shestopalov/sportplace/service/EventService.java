@@ -16,4 +16,6 @@ public interface EventService {
     Collection<Event> getAllEventByParams(EventDto eventDto);
     void deleteAllEventsByPlaceId(Long placeId);
     Optional<Collection<Event>> getAllEventsByPlaceId(Long placeId);
+    void deleteEvent(Long id);
+    void updateEvent(EventDto eventDto, Long id);
 }

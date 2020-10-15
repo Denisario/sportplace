@@ -18,6 +18,7 @@ import javax.validation.Valid;
 public class RegisterRestController {
     private final UserServiceImpl userService;
 
+
     @Autowired
     public RegisterRestController(UserServiceImpl userService) {
         this.userService = userService;
@@ -26,6 +27,7 @@ public class RegisterRestController {
     @PostMapping(value = "/rest/api/v1/register")
     public ResponseEntity<User> register(@RequestBody @Valid UserDto userDto){
         try {
+
             userService.register(userDto);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

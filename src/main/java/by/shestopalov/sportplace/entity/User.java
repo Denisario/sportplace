@@ -20,7 +20,7 @@ public class User {
     private Long id;
     @Column(name = "USER_USERNAME", nullable = false, length = 15)
     private String username;
-    @Column(name = "USER_PASSWORD", length = 20, nullable = false)
+    @Column(name = "USER_PASSWORD", length = 80, nullable = false)
     private String password;
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "ROLE_ID")

@@ -1,7 +1,6 @@
 package by.shestopalov.sportplace.rest;
 
 import by.shestopalov.sportplace.dto.PlaceDto;
-import by.shestopalov.sportplace.entity.Event;
 import by.shestopalov.sportplace.entity.Place;
 import by.shestopalov.sportplace.service.impl.EventServiceImpl;
 import by.shestopalov.sportplace.service.impl.PlaceServiceImpl;
@@ -32,7 +31,6 @@ public class PlaceRestController {
 
     @PostMapping(value = "/rest/api/v1/places")
     public ResponseEntity<PlaceDto> savePlace(@RequestBody @Valid PlaceDto placeDto){
-        System.out.println(placeDto);
         placeService.savePlace(placeDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }

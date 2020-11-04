@@ -33,7 +33,7 @@ public class Event {
     @JoinColumn(name = "PLACE_ID")
     @JsonManagedReference
     private Place place;
-    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonBackReference
     private Set<Comment> comments;
 }

@@ -5,6 +5,12 @@ import by.shestopalov.sportplace.security.AuthenticationException;
 import by.shestopalov.sportplace.security.JwtInMemoryUserDetailsService;
 import by.shestopalov.sportplace.security.JwtTokenUtil;
 import by.shestopalov.sportplace.service.impl.UserServiceImpl;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +47,12 @@ public class LoginRestController {
         this.jwtInMemoryUserDetailsService = jwtInMemoryUserDetailsService;
     }
 
+    @Operation(summary = "User authentification")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authorithed",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "Wrong format")
+    })
     @PostMapping(value = "/rest/api/v1/login")
     public ResponseEntity<Map<Object, Object>> login(@RequestBody @Valid UserDto userDto){
         authenticate(userDto.getUsername(), userDto.getPassword());

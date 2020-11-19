@@ -35,14 +35,12 @@ public class RegisterRestController {
             @ApiResponse(responseCode = "400", description = "Wrong format")
     })
     @PostMapping(value = "/rest/api/v1/register")
-    public ResponseEntity<User> register(@RequestBody @Valid UserDto userDto){
+    public ResponseEntity register(@RequestBody @Valid UserDto userDto){
         try {
-
             userService.register(userDto);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
         }
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
